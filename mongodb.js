@@ -77,26 +77,35 @@ MongoClient.connect(connUrl, { useNewUrlParser: true }, (error, client) => {
     //     console.log(count)
     // })
 
-    db.collection('users').updateOne({
-        _id: new ObjectID('5cf802cd1dbacf3974c34507')
-    }, {
-        $set: {
-            name: 'Chetan Pawar'
-        }
+    // db.collection('users').updateOne({
+    //     _id: new ObjectID('5cf802cd1dbacf3974c34507')
+    // }, {
+    //     $set: {
+    //         name: 'Chetan Pawar'
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    // db.collection('tasks').updateMany({
+    //     complete: false
+    // }, {
+    //     $set: {
+    //         complete: true
+    //     }
+    // }).then((result) => {
+    //     console.log(result.modifiedCount)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+
+    db.collection('tasks').deleteOne({
+        description: "Take 6 hour sleep"
     }).then((result) => {
         console.log(result)
-    }).catch((error) => {
-        console.log(error)
-    })
-
-    db.collection('tasks').updateMany({
-        complete: false
-    }, {
-        $set: {
-            complete: true
-        }
-    }).then((result) => {
-        console.log(result.modifiedCount)
     }).catch((error) => {
         console.log(error)
     })
