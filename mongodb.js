@@ -62,18 +62,42 @@ MongoClient.connect(connUrl, { useNewUrlParser: true }, (error, client) => {
     // })
 
 
-    db.collection('users').find({age: 22}).toArray((error, users) => {
-        if(error){
-            return console.log('Unable to find data')
-        }
-        console.log(users)
-    })
+    // db.collection('users').find({age: 22}).toArray((error, users) => {
+    //     if(error){
+    //         return console.log('Unable to find data')
+    //     }
+    //     console.log(users)
+    // })
 
     
-    db.collection('users').find({age: 20}).count((error, count) => {
-        if(error){
-            return console.log('Unable to find data')
+    // db.collection('users').find({age: 20}).count((error, count) => {
+    //     if(error){
+    //         return console.log('Unable to find data')
+    //     }
+    //     console.log(count)
+    // })
+
+    db.collection('users').updateOne({
+        _id: new ObjectID('5cf802cd1dbacf3974c34507')
+    }, {
+        $set: {
+            name: 'Chetan Pawar'
         }
-        console.log(count)
+    }).then((result) => {
+        console.log(result)
+    }).catch((error) => {
+        console.log(error)
+    })
+
+    db.collection('tasks').updateMany({
+        complete: false
+    }, {
+        $set: {
+            complete: true
+        }
+    }).then((result) => {
+        console.log(result.modifiedCount)
+    }).catch((error) => {
+        console.log(error)
     })
 })
