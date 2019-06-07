@@ -1,46 +1,78 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 mongoose.connect('mongodb://127.0.0.1/taskmanager-api', {
     useNewUrlParser: true,
     useCreateIndex: true
 })
 
-// const User = mongoose.model('user', {
-//     name:{
-//         type: String
-//     },
-//     age: {
-//         type: Number
-//     }
-// })
-
-// const me = new User({
-//      name: 'Chetan' , 
-//      age: 20
-// })
-
-// me.save().then(()=>{
-//     console.log(me)
-// }).catch((error)=>{
-//     console.log(error)
-// })
-
-const Task = mongoose.model('tasks', {
-    description:{
-        type: String
+const User = mongoose.model('user', {
+    name:{
+        type: String,
+        required: true,
+        trim : true
     },
-    completed: {
-        type: Boolean
+    email:{
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw Error('Email is invalid!')
+            }
+        }
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value){
+            if(value.length < 6 || value.includes('password')){
+                throw Error('Password is invalid')
+            }
+        }
+    },
+    age: {
+        type: Number,
+        default: 0,
+        validate(value){
+            if(value < 0){
+                throw Error('Age is invalid!')
+            }
+        }
     }
 })
 
-const myTask = new Task({
-     description: 'Start coding' , 
-     completed: false
+const me = new User({
+     name: '  Chetan   ',
+     email: '  chetan@gmail.com',
+     password: ' 123456'
 })
 
-myTask.save().then(()=>{
-    console.log(myTask)
+me.save().then(()=>{
+    console.log(me)
 }).catch((error)=>{
     console.log(error)
 })
+
+// const Task = mongoose.model('tasks', {
+//     description:{
+//         type: String
+//     },
+//     completed: {
+//         type: Boolean
+//     }
+// })
+
+// const myTask = new Task({
+//      description: 'Start coding' , 
+//      completed: false
+// })
+
+// myTask.save().then(()=>{
+//     console.log(myTask)
+// }).catch((error)=>{
+//     console.log(error)
+// })
