@@ -18,15 +18,3 @@ mongoose.connect('mongodb://127.0.0.1/taskmanager-api', {
 // }).catch((error)=>{
 //     console.log(error)
 // })
-
-const Task = mongoose.model('tasks', {
-    description:{
-        type: String,
-        required:true,
-        trim: true,
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    }
-})
