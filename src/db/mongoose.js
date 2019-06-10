@@ -1,20 +1,8 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 
-mongoose.connect('mongodb://127.0.0.1/taskmanager-api', {
+mongoose.connect('mongodb://127.0.0.1:27017/taskmanager-api', {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 })
 
-
-// const me = new User({
-//      name: '  Chetan   ',
-//      email: '  chetan@gmail.com',
-//      password: ' 123456'
-// })
-
-// me.save().then(()=>{
-//     console.log(me)
-// }).catch((error)=>{
-//     console.log(error)
-// })
