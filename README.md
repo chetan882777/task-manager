@@ -1,4 +1,4 @@
-# Go Todo REST API Example
+# Todo REST API Example
 A RESTful API example for simple todo application with NodeJS
 
 It is a just simple tutorial or example for making simple RESTful API with NodeJS using **express-js** (A nice npm library), **mongo-db** (An amazing NoSQL database) and **mongoose** (An ODT for mongo-db in NodeJS)
