@@ -16,29 +16,29 @@ router.post('/users', async (req, res) => {
     }
 })
 
-router.post('/logout', auth, async(req, res) => {
-    try{
-        req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token )
+router.post('/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
         await req.user.save()
 
         res.send()
 
-    }catch(e){
+    } catch (e) {
         res.status(500).send()
     }
 })
 
 router.post('/users/logoutall', auth, async (req, res) => {
-    try{
+    try {
         req.user.tokens = []
         await user.save()
         res.send()
-    }catch(e){
+    } catch (e) {
         res.status(500).send()
     }
 })
 
-router.get('/users/me', auth,  async (req, res) => {
+router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
@@ -84,22 +84,33 @@ router.delete('/users/me', auth, async (req, res) => {
 })
 
 const upload = multer({
-    dest: 'avatars',
     limits: {
         fileSize: 1000000
     },
-    fileFilter(req, file, cb){
-        if(!file.originalname.match(/\.(jpg|png|jpeg)$/)){
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
             cb(new Error('Please upload a Image'))
         }
         cb(undefined, true)
     }
 })
 
-router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+    req.user.avatar = req.file.buffer
+    await req.user.save()
     res.send()
-},(error, req, res, next) => {
-    res.status(400).send({error: error.message})
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
+
+router.delete('/users/me/avatar', auth, async (req, res) => {
+    if (req.user.avatar) { 
+        req.user.avatar = undefined
+        await req.user.save()
+        res.send()
+    }
+    res.send({error: 'user does not contain avatar'})
+
 })
 
 module.exports = router
